@@ -18,6 +18,8 @@ struct MacroProgressRow: View {
     let goal: Double?
     let unit: String
     let kind: GoalKind
+    /// Show the total as a percentage of the goal.
+    var showsPercent = false
 
     var body: some View {
         let status = Aggregator.status(total: total, goal: goal, kind: kind)
@@ -37,9 +39,18 @@ struct MacroProgressRow: View {
             if let goal, goal > 0 {
                 ProgressView(value: min(total / goal, 1))
                     .tint(status.color)
-                Text(Self.remainingText(total: total, goal: goal, unit: unit, kind: kind))
-                    .font(.caption)
-                    .foregroundStyle(status == .over ? .red : .secondary)
+                HStack {
+                    Text(Self.remainingText(total: total, goal: goal, unit: unit, kind: kind))
+                        .foregroundStyle(status == .over ? .red : .secondary)
+                    Spacer()
+                    if showsPercent {
+                        Text((total / goal).formatted(.percent.precision(.fractionLength(0))))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(status.color)
+                            .monospacedDigit()
+                    }
+                }
+                .font(.caption)
             }
         }
         .padding(.vertical, 2)

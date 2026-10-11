@@ -56,7 +56,8 @@ private struct DayList: View {
                         total: entries.reduce(0) { $0 + $1.value(for: macro.id) },
                         goal: macro.dailyGoal,
                         unit: macro.unit,
-                        kind: macro.goalKind
+                        kind: macro.goalKind,
+                        showsPercent: true
                     )
                 }
             }

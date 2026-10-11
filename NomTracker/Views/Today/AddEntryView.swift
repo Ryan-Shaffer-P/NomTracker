@@ -1,7 +1,7 @@
 import SwiftData
 import SwiftUI
 
-/// Pick a saved food or quick-add values, then confirm in `EntryFormView`.
+/// Pick a saved food, quick-add values, or add a single macro amount.
 struct AddEntryView: View {
     let day: Date
 
@@ -23,6 +23,11 @@ struct AddEntryView: View {
                         EntryFormView(day: day) { dismiss() }
                     } label: {
                         Label("Quick add", systemImage: "square.and.pencil")
+                    }
+                    NavigationLink {
+                        QuickMacroView(day: day) { dismiss() }
+                    } label: {
+                        Label("Quick macro", systemImage: "bolt")
                     }
                 }
                 Section("Saved foods") {
